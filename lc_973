@@ -1,0 +1,68 @@
+import queue
+
+class Solution:
+    # Min Heap approah: 72% faster, 37% less space
+    # Time Complexity: O(NlogK)
+    # Space Complexity: O(K) for the heap
+    def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
+        
+        q = queue.PriorityQueue(K + 1)  
+        
+        for point in points:
+            dist = point[0]**2 + point[1]**2
+            q.put((-dist, point))
+            if q.full():
+                q.get()
+        
+        r = []
+        while not q.empty():
+            r.append(q.get()[1])
+        return r
+    
+    
+    # Min Heap approah: 72% faster, 37% less space
+    # Time Complexity: O(NlogK)
+    # Space Complexity: O(K) for the heap
+#     def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
+        
+#         heap = []
+        
+#         for point in points:
+#             dist = point[0]**2 + point[1]**2
+#             heapq.heappush(heap, (-dist, point))
+#             if len(heap) > K:
+#                 heapq.heappop(heap)
+        
+#         return [tuple[1] for tuple in heap]
+    
+    
+    # Brute Force original: 32% faster, 20% less memory
+    # Time Complexity: O(NlogN)
+    # Space Complexity: O(N)
+#     def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
+        
+#         sl = []
+        
+#         for a, b in points:
+#             distance_sq = a**2 + b**2
+#             low = 0
+#             high = len(sl)
+#             mid = (low + high) // 2
+#             while low < high:
+#                 if distance_sq > sl[mid][0]:
+#                     low = mid + 1
+#                 elif distance_sq == sl[mid][0]:
+#                     break
+#                 else:
+#                     high = mid
+                
+#                 mid = (low + high) // 2
+            
+#             sl.insert(mid, (distance_sq, (a, b)))
+            
+#         r = []
+#         for i in range(K):
+#             t = sl[i][1]
+#             r.append([t[0], t[1]])
+            
+#         return r
